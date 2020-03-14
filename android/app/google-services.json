@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "753305293844",
+    "firebase_url": "https://agemob-6cfde.firebaseio.com",
+    "project_id": "agemob-6cfde",
+    "storage_bucket": "agemob-6cfde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753305293844:android:d056406fcb78ab26c60301",
+        "android_client_info": {
+          "package_name": "com.example.agemob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfRxIxGK2dKJ5JcyGH6fBj7p3MyV2QNAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753305293844:android:6bbbbf1101afe082c60301",
+        "android_client_info": {
+          "package_name": "com.example.flutterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfRxIxGK2dKJ5JcyGH6fBj7p3MyV2QNAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753305293844:android:028fd2d4b1ade620c60301",
+        "android_client_info": {
+          "package_name": "pkg.agemobuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfRxIxGK2dKJ5JcyGH6fBj7p3MyV2QNAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753305293844-vms8852kgest8m1v5f9cnd8cdscsh9j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
