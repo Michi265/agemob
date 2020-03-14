@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:agemob/Pages/home.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final databaseReference = Firestore.instance;
   final Firestore firestore = Firestore.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _email, _password;
   String project, country, destination, date, student;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -157,6 +159,9 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
         );
+
+        var token = _getToken(uid);
+
       } catch (e) {
         print(e.message);
       }
@@ -167,6 +172,13 @@ class _LoginPageState extends State<LoginPage> {
     var b = databaseReference.collection("users").getDocuments().then((
         QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) => print('${f.data}}'));
+    });
+  }
+
+  _getToken(uid) {
+    _firebaseMessaging.getToken().then((deviceToken) {
+      print('Device Token: $deviceToken');
+      firestore.collection('users').document(uid).updateData({'deviceToken': deviceToken});
     });
   }
 
