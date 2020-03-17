@@ -129,8 +129,8 @@ class _LoginPageState extends State<LoginPage> {
         print(uid);
 
 
-        DocumentReference documentReference = firestore.collection('users').document(uid);
-        documentReference.get().then((datasnapshot){
+        DocumentReference documentReferenceUser = firestore.collection('users').document(uid);
+        documentReferenceUser.get().then((datasnapshot){
           if (datasnapshot.exists){
 
             project = datasnapshot.data['project'].toString();
@@ -140,21 +140,21 @@ class _LoginPageState extends State<LoginPage> {
             student = datasnapshot.data['student'].toString();
             print(project);
 
-            DocumentReference documentReference1 = firestore.collection('projects').document(project).collection('Countries').document(country).collection('Destinations').document(destination).collection('Date').document(date).collection('Students').document(student);
+            DocumentReference documentReferenceProject = firestore.collection('projects').document(project).collection('Countries').document(country).collection('Destinations').document(destination).collection('Date').document(date).collection('Students').document(student);
 
-            documentReference1.get().then((datasnapshot){
+            documentReferenceProject.get().then((datasnapshot){
               if (datasnapshot.exists){
                 print(datasnapshot.data.toString());
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home(project: project, country: country, destination: destination, date: date, student: student,)));
+                    context, MaterialPageRoute(builder: (context) => Home(project: project, country: country, destination: destination, date: date, student: student
+                )));
               }
               else{
                 print ('No such user');
               }
             }
             );
-          }
-          else{
+          } else{
             print ('No such user');
           }
         }
