@@ -39,6 +39,14 @@ class _MidTermState extends State<MidTerm> {
 
   final Firestore firestore = Firestore.instance;
 
+  var culture = 0;
+  var fun = 0;
+  var health = 0;
+  var organization = 0;
+  var social_relations = 0;
+  var work = 0;
+
+
   bool init = false;
 
   var cultureX = new List(10);
@@ -295,14 +303,22 @@ class _MidTermState extends State<MidTerm> {
       );
   }
 void uploadTerm(){
-  DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+  DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries')
+      .document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date')
+      .document(widget.date.toString()).collection('Students').document(widget.student.toString());
   documentReferenceProject.get().then((datasnapshot) async {
     if (datasnapshot.exists){
       if(widget.midTerm=='midTerm'){
         documentReferenceProject.updateData({'midTerm': "green"});
+        
+        documentReferenceProject.collection('feedbacks').document('feedback1').updateData({'culture':this.culture,'work':this.work,'health':this.health,
+          'fun':this.fun,'organization':this.organization,'social_relations':this.social_relations});
         Navigator.of(context).pop();
       }else{
           documentReferenceProject.updateData({'finalTerm': "green"});
+
+          documentReferenceProject.collection('feedbacks').document('feedback2').updateData({'culture':this.culture,'work':this.work,'health':this.health,
+            'fun':this.fun,'organization':this.organization,'social_relations':this.social_relations});
           Navigator.of(context).pop();
       }
     }
@@ -406,7 +422,6 @@ void uploadTerm(){
       var best_indexFun;
       var best_indexRelations;
       var best_indexOrganization;
-      var sector = "nessuno";
       var sectorIndex = 0;
 
       for (int i = 0; i < 10; i++) {
@@ -510,6 +525,8 @@ void uploadTerm(){
         this.cultureRefRightY = this.cultureY[best_indexCulture];
         this.cultureRefLeftX = this.workX[best_indexCulture];
         this.cultureRefLeftY = this.workY[best_indexCulture];
+
+        this.culture = (best_indexCulture+1)*10;
       }
 
       if (sectorIndex == 1) {
@@ -517,6 +534,9 @@ void uploadTerm(){
         this.workRefRightY = this.workY[best_indexWork];
         this.workRefLeftX = this.work1X[best_indexWork];
         this.workRefLeftY = this.work1Y[best_indexWork];
+
+        this.work = (best_indexWork+1)*10;
+
       }
 
       if (sectorIndex == 2) {
@@ -524,6 +544,9 @@ void uploadTerm(){
         this.healthRefRightY = this.healthY[best_indexHealth];
         this.healthRefLeftX = this.funX[best_indexHealth];
         this.healthRefLeftY = this.funY[best_indexHealth];
+
+        this.health = (best_indexHealth+1)*10;
+
       }
 
       if (sectorIndex == 3) {
@@ -531,6 +554,9 @@ void uploadTerm(){
         this.funRefRightY = this.funY[best_indexFun];
         this.funRefLeftX = this.relationsX[best_indexFun];
         this.funRefLeftY = this.relationsY[best_indexFun];
+
+        this.fun = (best_indexFun+1)*10;
+
       }
 
       if (sectorIndex == 4) {
@@ -538,6 +564,9 @@ void uploadTerm(){
         this.relationsRefRightY  = this.relationsY[best_indexRelations];
         this.relationsRefLeftX = this.relations1X[best_indexRelations];
         this.relationsRefLeftY = this.relations1Y[best_indexRelations];
+
+        this.social_relations = (best_indexRelations+1)*10;
+
       }
 
       if (sectorIndex == 5) {
@@ -545,6 +574,9 @@ void uploadTerm(){
         this.organizationRefRightY  =  this.organizationY[best_indexOrganization];
         this.organizationRefLeftX = this.cultureX[best_indexOrganization];
         this.organizationRefLeftY = this.cultureY[best_indexOrganization];
+
+        this.organization = (best_indexOrganization+1)*10;
+
       }
     }
   }
@@ -671,21 +703,6 @@ class DrawingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    /*
-    for (int i = 0; i < pointsList.length - 1; i++) {
-      if (pointsList[i] != null && pointsList[i + 1] != null) {
-        //canvas.drawLine(pointsList[i].points, pointsList[i + 1].points,
-            //pointsList[i].paint);
-      } else if (pointsList[i] != null && pointsList[i + 1] == null) {
-        offsetPoints.clear();
-        offsetPoints.add(pointsList[i].points);
-        offsetPoints.add(Offset(
-            pointsList[i].points.dx + 0.1, pointsList[i].points.dy + 0.1));
-        //canvas.drawPoints(PointMode.points, offsetPoints, pointsList[i].paint);
-      }
-    }
-
-     */
 
     canvas.drawLine(Offset(size.width / 2, size.height / 2),
         Offset(this.axisCultureX, size.height / 2),
@@ -797,9 +814,6 @@ class DrawingPainter extends CustomPainter {
 
     canvas.drawPath(pathOrganization, Paint()
       ..color = Colors.deepOrange);
-
-    print('work '+ this.workRefRightX.toString());
-    print('culture '+ this.cultureRefRightX.toString());
 
 
     canvas.translate(size.width / 2, size.height / 2 - radius);
