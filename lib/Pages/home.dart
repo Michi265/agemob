@@ -346,8 +346,8 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['document'].toString() == 'green' && datasnapshot.data['ols1'].toString()== 'green') {
-                                        _list[2].expanded = !(_list[2].expanded);
+                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen') {
+                                          _list[2].expanded = !(_list[2].expanded);
                                         }else{
                                           showDialog(
                                               context: context,
@@ -408,7 +408,7 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['document'].toString() == 'green' && datasnapshot.data['ols1'].toString()== 'green') {
+                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen') {
                                           _list[3].expanded = !(_list[3].expanded);
                                         }else{
                                           showDialog(
@@ -470,7 +470,7 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['document'].toString() == 'green' && datasnapshot.data['ols1'].toString()== 'green') {
+                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen') {
                                           _list[4].expanded = !(_list[4].expanded);
                                         }else{
                                           showDialog(
@@ -532,7 +532,7 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['returnTicket'].toString()=='Uploaded') {
+                                        if(datasnapshot.data['midTerm'].toString()=='green' && datasnapshot.data['finalTerm'].toString()=='green') {
                                           _list[5].expanded = !(_list[5].expanded);
                                         }else{
                                           showDialog(
@@ -594,7 +594,7 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['returnTicket'].toString()=='Uploaded') {
+                                        if(datasnapshot.data['midTerm'].toString()=='green' && datasnapshot.data['finalTerm'].toString()=='green') {
                                           _list[6].expanded = !(_list[6].expanded);
                                         }else{
                                           showDialog(
@@ -656,7 +656,7 @@ class _HomeState extends State<Home> {
                                   documentReferenceProject.get().then((datasnapshot) {
                                     if (datasnapshot.exists) {
                                       setState(() {
-                                        if(datasnapshot.data['returnTicket'].toString()=='Uploaded') {
+                                        if(datasnapshot.data['midTerm'].toString()=='green' && datasnapshot.data['finalTerm'].toString()=='green') {
                                           _list[7].expanded = !(_list[7].expanded);
                                         }else{
                                           showDialog(
@@ -745,12 +745,12 @@ class _HomeState extends State<Home> {
   });}
 
   Future<void> uploadMidTermCheck() async {
-    DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString()).collection('tickets').document('departure');
+    DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.get().then((datasnapshot) async {
       if (datasnapshot.exists){
         print(datasnapshot.data.toString());
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MidTerm()));
+            context, MaterialPageRoute(builder: (context) => MidTerm(project: widget.project.toString(), country: widget.country.toString(), destination: widget.destination.toString(), date: widget.date.toString(), student: widget.student.toString(),midTerm: 'midTerm')));
       }
       else{
         print ('No such user');
@@ -760,6 +760,18 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> uploadFinalCheck() async {
+    DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+    documentReferenceProject.get().then((datasnapshot) async {
+      if (datasnapshot.exists){
+        print(datasnapshot.data.toString());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MidTerm(project: widget.project.toString(), country: widget.country.toString(), destination: widget.destination.toString(), date: widget.date.toString(), student: widget.student.toString(),finalTerm: 'finalTerm')));
+      }
+      else{
+        print ('No such user');
+      }
+    }
+    );
   }
 
   Future<void> downloadTicketsR() async {
@@ -782,6 +794,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> report() async {
-
+    DocumentReference documentReference = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+    documentReference.updateData({'report': "yellow"});
   }
 }
