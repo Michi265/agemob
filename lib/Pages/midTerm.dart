@@ -371,6 +371,8 @@ void uploadTerm(){
         if (widget.midTerm == 'midTerm') {
           documentReferenceProject.updateData({'midTerm': "green"});
 
+          documentReferenceProject.collection('feedbacks').document('feedback1').setData({'work': 1});
+
           documentReferenceProject.collection('feedbacks')
               .document('feedback1')
               .updateData({
@@ -384,6 +386,8 @@ void uploadTerm(){
           Navigator.of(context).pop();
         } else {
           documentReferenceProject.updateData({'finalTerm': "green"});
+
+          documentReferenceProject.collection('feedbacks').document('feedback2').setData({'work': 1});
 
           documentReferenceProject.collection('feedbacks')
               .document('feedback2')
