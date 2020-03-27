@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:agemob/Pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:email_validator/email_validator.dart';
 
 
 enum AuthMode {Login}
@@ -23,14 +25,18 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   bool _validate = false;
+  var emailField;
 
   @override
   Widget build(BuildContext context) {
 
-          final emailField = TextFormField(
+            this.emailField = TextFormField(
             autofocus: false,
             obscureText: false,
             style: style,
+            validator: (input) => !EmailValidator.validate(input, true)
+                ? 'Not a valid email.'
+                : null,
             onSaved: (input) => _email = input,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -44,11 +50,14 @@ class _LoginPageState extends State<LoginPage> {
                   borderSide: BorderSide(color: Colors.grey, width: 2.0),
                 ),
           ),
+
           );
 
           final passwordField = TextFormField(
             obscureText: true,
             style: style,
+            validator: (val) =>
+            val.length < 4 ? 'Password too short..' : null,
             onSaved: (input) => _password = input,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -94,12 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                         height: 150.0,
                         child: Image.asset(
                           "assets/icon.png",
-
                           fit: BoxFit.contain,
                         ),
                       ),
                       SizedBox(height: 60.0),
-                      emailField,
+                      this.emailField,
                       SizedBox(height: 25.0),
                       passwordField,
                       SizedBox(
@@ -127,7 +135,6 @@ class _LoginPageState extends State<LoginPage> {
         FirebaseUser user = result.user;
         final uid = user.uid;
         print(uid);
-
 
         DocumentReference documentReferenceUser = firestore.collection('users').document(uid);
         documentReferenceUser.get().then((datasnapshot){
@@ -163,10 +170,38 @@ class _LoginPageState extends State<LoginPage> {
         var token = _getToken(uid);
 
       } catch (e) {
-        print(e.message);
+       print(e.message);
+
+       showDialog(
+           context: context,
+           builder: (BuildContext context)
+       {
+
+           return this.emailField = TextFormField(
+           obscureText: true,
+           style: style,
+           validator: (val) =>
+           val.length < 4 ? 'Password too short..' : 'Password too short..',
+           onSaved: (input) => _email = input,
+           decoration: InputDecoration(
+               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+               hintText: "Email",
+               focusedBorder: OutlineInputBorder(
+                 borderRadius: BorderRadius.circular(32.0),
+                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
+               ),
+               enabledBorder: OutlineInputBorder(
+                 borderRadius: BorderRadius.circular(32.0),
+                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
+               )
+           ),
+         );
+
+       });
+       }
       }
     }
-  }
+
 
   void getData() async {
     var b = databaseReference.collection("users").getDocuments().then((
@@ -180,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Device Token: $deviceToken');
       firestore.collection('users').document(uid).updateData({'deviceToken': deviceToken});
     });
+
   }
 
 

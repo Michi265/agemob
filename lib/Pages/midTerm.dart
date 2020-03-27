@@ -180,6 +180,18 @@ class _MidTermState extends State<MidTerm> {
       body:
       Stack(
         children: <Widget>[
+      Column(
+      children: <Widget>[
+        Container(height: 30.0,
+        width: MediaQuery.of(context).size.width-14,),
+      Text('Drag your finger over the slices of the',
+        style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+      Text('wheel to express your satisfaction ',
+          style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+      Text(' about various aspects of your',
+          style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+      Text(' experience abroad.',
+            style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),],),
           GestureDetector(
             onPanUpdate: (details) {
               setState(() {
@@ -284,7 +296,6 @@ class _MidTermState extends State<MidTerm> {
                   alignment: Alignment.bottomLeft,
                 ),
                  SizedBox(
-
                   width:MediaQuery.of(context).size.width - 240,
                   child:RaisedButton(
                   onPressed: uploadTerm,
@@ -303,31 +314,96 @@ class _MidTermState extends State<MidTerm> {
       );
   }
 void uploadTerm(){
-  DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries')
-      .document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date')
-      .document(widget.date.toString()).collection('Students').document(widget.student.toString());
-  documentReferenceProject.get().then((datasnapshot) async {
-    if (datasnapshot.exists){
-      if(widget.midTerm=='midTerm'){
-        documentReferenceProject.updateData({'midTerm': "green"});
-        
-        documentReferenceProject.collection('feedbacks').document('feedback1').updateData({'culture':this.culture,'work':this.work,'health':this.health,
-          'fun':this.fun,'organization':this.organization,'social_relations':this.social_relations});
-        Navigator.of(context).pop();
-      }else{
+
+  if(this.culture == 0 || this.work == 0 || this.fun == 0 || this.health == 0 || this.organization == 0 || this.social_relations ==0){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(20.0)), //this right here
+          child: Container(
+            height: 150,
+            width: 200.0,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  TextField(
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Please complete!'),
+                  ),
+                  SizedBox(
+                    width: 50.0,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child:Column(
+                        children: <Widget>[
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Icon(Icons.check, color:Colors.white)
+                          ),
+                        ],
+                      ),
+                      color:Colors.red[900],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );},);
+  }else {
+    DocumentReference documentReferenceProject = firestore.collection(
+        'projects').document(widget.project.toString()).collection('Countries')
+        .document(widget.country.toString()).collection('Destinations')
+        .document(widget.destination.toString()).collection('Date')
+        .document(widget.date.toString()).collection('Students')
+        .document(widget.student.toString());
+    documentReferenceProject.get().then((datasnapshot) async {
+      if (datasnapshot.exists) {
+        if (widget.midTerm == 'midTerm') {
+          documentReferenceProject.updateData({'midTerm': "green"});
+
+          documentReferenceProject.collection('feedbacks')
+              .document('feedback1')
+              .updateData({
+            'culture': this.culture,
+            'work': this.work,
+            'health': this.health,
+            'fun': this.fun,
+            'organization': this.organization,
+            'social_relations': this.social_relations
+          });
+          Navigator.of(context).pop();
+        } else {
           documentReferenceProject.updateData({'finalTerm': "green"});
 
-          documentReferenceProject.collection('feedbacks').document('feedback2').updateData({'culture':this.culture,'work':this.work,'health':this.health,
-            'fun':this.fun,'organization':this.organization,'social_relations':this.social_relations});
+          documentReferenceProject.collection('feedbacks')
+              .document('feedback2')
+              .updateData({
+            'culture': this.culture,
+            'work': this.work,
+            'health': this.health,
+            'fun': this.fun,
+            'organization': this.organization,
+            'social_relations': this.social_relations
+          });
           Navigator.of(context).pop();
+        }
+      } else {
+        print('No such user');
       }
-    }
-    else{
-      print ('No such user');
-    }
+    });
   }
-  );
 }
+
   void paintCerchio(Canvas canvas, Size size) {
     double stepCulture = ((size.width / 2) - 15) / 10;
     double stepWorkY = (((size.width / 2) - 15) * sin(pi / 3)) / 10;

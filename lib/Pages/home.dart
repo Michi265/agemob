@@ -97,11 +97,15 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                     fontSize: 20.0, fontWeight: FontWeight.bold),));
         },
-        body: RaisedButton(
-          onPressed: uploadDocument,
-          child: Text('Upload document'),
+        body: Column(
+            children: <Widget>[
+              Text('Upload photos of your identity card.', style: TextStyle(fontSize: 18.0),),
+              Text(''),
+              RaisedButton(
+                onPressed: uploadDocument,
+                child: Text('Upload document'),)
 
-        ),
+        ],),
         isExpanded:(expansionDataDocument._expanded)));
 
     var expansionDataOls1 = _list[1];
@@ -113,10 +117,18 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
+        body: Column(
+          children: <Widget>[
+          Text(' You have received the login credentials for the '+' '+' OLS platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+            Text(''),
+          Text(' Use them to complete the test.', style: TextStyle(fontSize: 22.0)),
+          Text(''),
+          Text(' Once you have done the test, click the button below to allow the operator to verify that everything is ok and upload your flight tickets.', style: TextStyle(fontSize: 18.0),),
+          Text(''),
+          RaisedButton(
             onPressed: uploadOls1,
             child: Text('Upload ols1')
-        ),
+          ),],),
         isExpanded:(expansionDataOls1._expanded)));
 
     var expansionDataDownloadTickets = _list[2];
@@ -128,10 +140,14 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
-          onPressed: downloadTickets,
-          child: Text('Download tickets'),
-        ),
+        body:Column(
+          children: <Widget>[
+          Text(' Click the button below to download your flight tickets.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+          Text(''),
+          RaisedButton(
+            onPressed: downloadTickets,
+            child: Text('Download tickets'),
+        ),],),
         isExpanded: expansionDataDownloadTickets._expanded));
 
     var expansionDataMidTermCheck = _list[3];
@@ -143,10 +159,14 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
-          onPressed: uploadMidTermCheck,
-          child: Text('Upload Mid-Term check'),
-        ),
+        body: Column(
+          children: <Widget>[
+          Text(' Click the button below to be able to fill your "internship wheel" and give us feedback on your experience. ', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+          Text(''),
+          RaisedButton(
+            onPressed: uploadMidTermCheck,
+            child: Text('Upload Mid-Term check'),
+          ),],),
         isExpanded: expansionDataMidTermCheck._expanded));
 
     var expansionDataFinalCheck = _list[4];
@@ -158,10 +178,14 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
-          onPressed: uploadFinalCheck,
-          child: Text('Upload final check'),
-        ),
+        body: Column(
+          children: <Widget>[
+          Text(' Click the button below to be able to fill your "internship wheel" and give us feedback on your experience. ', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+          Text(''),
+          RaisedButton(
+            onPressed: uploadFinalCheck,
+            child: Text('Upload final check'),
+        ),],),
         isExpanded: expansionDataFinalCheck._expanded));
 
 
@@ -174,10 +198,14 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
-          onPressed: downloadTicketsR,
-          child: Text('Download tickets'),
-        ),
+        body:  Column(
+          children: <Widget>[
+          Text(' Click the button below to download your flight tickets.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+          Text(''),
+          RaisedButton(
+            onPressed: downloadTicketsR,
+            child: Text('Download tickets'),
+        ),],),
         isExpanded: expansionDataDownloadTicketsR._expanded));
 
 
@@ -190,10 +218,18 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
+        body:Column(
+          children: <Widget>[
+        Text(' You have received the login credentials for the '+' '+' OLS platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+        Text(''),
+        Text(' Use them to complete the test.', style: TextStyle(fontSize: 22.0)),
+        Text(''),
+        Text(' Once you have done the test, click the button below to allow the operator to verify that everything is ok and upload your flight tickets.', style: TextStyle(fontSize: 18.0),),
+        Text(''),
+        RaisedButton(
           onPressed: uploadOls2,
           child: Text('Upload ols2'),
-        ),
+        ),],),
         isExpanded: expansionDataOls2._expanded));
 
 
@@ -206,10 +242,18 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold)));
         },
-        body: RaisedButton(
+        body: Column(
+          children: <Widget>[
+        Text(' You have received the login credentials for the '+' '+' Erasmus platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
+        Text(''),
+        Text(' Use them to complete the final report on your experience.', style: TextStyle(fontSize: 22.0)),
+        Text(''),
+        Text('  Once you have complete the report, click the button below to allow the operator to verify that everything is ok.', style: TextStyle(fontSize: 18.0),),
+        Text(''),
+        RaisedButton(
           onPressed: report,
           child: Text('Report'),
-        ),
+        ),],),
         isExpanded: expansionDataReport._expanded));
 
     return Scaffold(
