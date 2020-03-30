@@ -369,7 +369,7 @@ void uploadTerm(){
     documentReferenceProject.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         if (widget.midTerm == 'midTerm') {
-          documentReferenceProject.updateData({'midTerm': "green"});
+          documentReferenceProject.updateData({'midTerm': "lightgreen"});
 
           documentReferenceProject.collection('feedbacks').document('feedback1').setData({'work': 1});
 
@@ -385,7 +385,7 @@ void uploadTerm(){
           });
           Navigator.of(context).pop();
         } else {
-          documentReferenceProject.updateData({'finalTerm': "green"});
+          documentReferenceProject.updateData({'finalTerm': "lightgreen"});
 
           documentReferenceProject.collection('feedbacks').document('feedback2').setData({'work': 1});
 

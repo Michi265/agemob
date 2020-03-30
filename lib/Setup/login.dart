@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
               if (datasnapshot.exists){
                 print(datasnapshot.data.toString());
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home(project: project, country: country, destination: destination, date: date, student: student
+                    context, MaterialPageRoute(builder: (context) => Home(project: project, country: country, destination: destination, date: date, student: student,
                 )));
               }
               else{
