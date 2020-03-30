@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:agemob/Pages/cameraState.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'midTerm.dart';
@@ -9,11 +11,13 @@ import 'midTerm.dart';
 class MyData{
   String _title, _body;
   bool _expanded;
+  IconData icon;
 
-  MyData(this._title, this._body, this._expanded);
+
+  MyData(this._title,this.icon, this._body, this._expanded);
   @override
   String toString() {
-    return 'MyData{_title: $_title, _body: $_body, _expanded: $_expanded}';
+    return 'MyData{_title: $_title,_icon: $icon, _body: $_body, _expanded: $_expanded}';
   }
 
   bool get expanded => _expanded;
@@ -34,22 +38,25 @@ class Home extends StatefulWidget {
 
   String project, country, destination, date, student,documentReferenceProject;
 
-  Home({this.project, this.country, this.destination, this.date, this.student});
+  Home({this.project, this.country, this.destination, this.date, this.student
+  });
   @override
   _HomeState createState() => _HomeState([
-    MyData("Step 1: Documents","bo", false),
-    MyData("Step 2: OLS test","fkfjdb", false),
-    MyData("Step 3: Tickets","fkfjdb", false),
-    MyData("Step 4: Mid-term check","fkfjdb", false),
-    MyData("Step 5: final check","fkfjdb", false),
-    MyData("Step 6: Tickets","fkfjdb", false),
-    MyData("Step 7: OLS test","fkfjdb", false),
-    MyData("Step 8: Final report","fkfjdb", false)
+    MyData("Step 1: Documents ",Icons.check_box_outline_blank, "bo", false),
+    MyData("Step 2: OLS test ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 3: Tickets ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 4: Mid-term check ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 5: final check ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 6: Tickets ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 7: OLS test ",Icons.check_box_outline_blank,"fkfjdb", false),
+    MyData("Step 8: Final report ",Icons.check_box_outline_blank,"fkfjdb", false),
   ]);
 }
 
 class _HomeState extends State<Home> {
   List<MyData> _list;
+  List<MaterialColor> listColor = new List(8);
+
   _HomeState(this._list);
   String ols1 = 'yellow';
   final databaseReference = Firestore.instance;
@@ -88,14 +95,22 @@ class _HomeState extends State<Home> {
     List<ExpansionPanel> myList6 = [];
     List<ExpansionPanel> myList7 = [];
 
+   //listColor[0] = Colors.green;
+    checkColors();
+
     var expansionDataDocument = _list[0];
     myList0.add(ExpansionPanel(
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataDocument._title,
+              child: Row(
+              children: <Widget>[
+                Text(expansionDataDocument._title+ "             ",
                 style: TextStyle(
-                    fontSize: 20.0, fontWeight: FontWeight.bold),));
+                    fontSize: 20.0, fontWeight: FontWeight.bold),),
+              Icon(expansionDataDocument.icon,color: Colors.green,)
+          ],
+          ),);
         },
         body: Column(
             children: <Widget>[
@@ -113,10 +128,15 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataOls1._title,
+              child: Row(
+                children: <Widget>[
+                Text(expansionDataOls1._title + "              ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
-        },
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataOls1.icon,color: Colors.green,)
+              ],
+          ));},
+
         body: Column(
           children: <Widget>[
           Text(' You have received the login credentials for the '+' '+' OLS platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
@@ -136,9 +156,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataDownloadTickets._title,
+            child: Row(
+              children: <Widget>[
+                Text(expansionDataDownloadTickets._title+ "                  ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataDownloadTickets.icon,color: Colors.green,)
+              ],
+            ),);
         },
         body:Column(
           children: <Widget>[
@@ -155,9 +180,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataMidTermCheck._title,
+            child: Row(
+              children: <Widget>[
+                Text(expansionDataMidTermCheck._title+ "        ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataMidTermCheck.icon,color: Colors.green,)
+              ],
+            ),);
         },
         body: Column(
           children: <Widget>[
@@ -174,9 +204,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataFinalCheck._title,
+            child: Row(
+              children: <Widget>[
+                Text(expansionDataFinalCheck._title+ "             ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataFinalCheck.icon,color: Colors.green,)
+              ],
+            ),);
         },
         body: Column(
           children: <Widget>[
@@ -194,9 +229,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataDownloadTicketsR._title,
-                  style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+              child: Row(
+                children: <Widget>[
+                  Text(expansionDataDownloadTicketsR._title+ "                 ",
+                    style: TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),),
+                  Icon(expansionDataDownloadTicketsR.icon,color: Colors.green,)
+                ],
+              ),);
         },
         body:  Column(
           children: <Widget>[
@@ -214,9 +254,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataOls2._title,
+            child: Row(
+              children: <Widget>[
+                Text(expansionDataOls2._title+ "                 ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataOls2.icon,color: Colors.green,)
+              ],
+            ),);
         },
         body:Column(
           children: <Widget>[
@@ -238,9 +283,14 @@ class _HomeState extends State<Home> {
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(expansionDataReport._title,
+            child: Row(
+              children: <Widget>[
+                Text(expansionDataReport._title+ "               ",
                   style: TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold)));
+                      fontSize: 20.0, fontWeight: FontWeight.bold),),
+                Icon(expansionDataReport.icon,color: Colors.green,)
+              ],
+            ),);
         },
         body: Column(
           children: <Widget>[
@@ -361,28 +411,53 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     Column(
                         children: <Widget>[
-
                           Container(
-                            margin: const EdgeInsets.all(4.0),
-                            child: new ExpansionPanelList(
-                              children: myList0,
-                              expansionCallback: (int index, bool isExpanded) {
+                              margin: const EdgeInsets.all(4.0),
+                              child: Theme(
+                                data: ThemeData(
+                                  cardColor: listColor[0],
+                                ),
+                                child:new ExpansionPanelList(
+                                  children: myList0,
+                                  expansionCallback: (int index, bool isExpanded) {
                                   setState(() {
+                                  DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+                                  documentReferenceProject.get().then((datasnapshot) {
+                                  if (datasnapshot.exists) {
+                                  setState(() {
+                                  if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')) {
+                                  _list[0].expanded = (_list[0].expanded);
+                                  }else{
+                                    _list[0].icon =  Icons.check_box;
                                     _list[0].expanded = !(_list[0].expanded);
+                                  }
                                   });
-                                  },),),
+                                  };});});},),),),
                           Container(
                             margin: const EdgeInsets.all(4.0),
                             child: new ExpansionPanelList(
                               children: myList1,
                               expansionCallback: (int index, bool isExpanded) {
                                 setState(() {
-                                  _list[1].expanded = !(_list[1].expanded);
+                                  DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+                                  documentReferenceProject.get().then((datasnapshot) {
+                                  if (datasnapshot.exists) {
+                                    setState(() {
+                                    if(datasnapshot.data['ols1'].toString()== 'lightgreen') {
+                                      _list[1].expanded = (_list[1].expanded);
+                                      _list[1].icon =  Icons.check_box;
+                                      }else{
+                                        _list[1].expanded = !(_list[1].expanded);
+                                    }
                                 });
-                              },),),
+                              };});});},),),
                           Container(
                             margin: const EdgeInsets.all(4.0),
-                            child: new ExpansionPanelList(
+                            child: Theme(
+                            data: ThemeData(
+                            cardColor: listColor[2],
+                            ),
+                            child:new ExpansionPanelList(
                               children: myList2,
                               expansionCallback: (int index, bool isExpanded) {
                                 setState(() {
@@ -441,7 +516,7 @@ class _HomeState extends State<Home> {
                                         },);
                                       };},);
                                   },);
-                              },),),
+                              },),),),
                           Container(
                             margin: const EdgeInsets.all(4.0),
                             child: new ExpansionPanelList(
@@ -500,6 +575,7 @@ class _HomeState extends State<Home> {
                                               );
                                             },);
                                         };
+
                                       },);
                                     };},);
                                 },);
@@ -772,6 +848,7 @@ class _HomeState extends State<Home> {
   Future<void> uploadOls1() async {
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.updateData({'ols1': "yellow"});
+
   }
 
   Future<void> downloadTickets() async {
@@ -786,7 +863,9 @@ class _HomeState extends State<Home> {
         }
         print(datasnapshot.data['downloadURL']);
       }
-  });}
+  });
+
+  }
 
   Future<void> uploadMidTermCheck() async {
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
@@ -841,4 +920,18 @@ class _HomeState extends State<Home> {
     DocumentReference documentReference = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReference.updateData({'report': "yellow"});
   }
+
+  void checkColors(){
+    DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
+    documentReferenceProject.get().then((datasnapshot) async {
+      if (datasnapshot.exists){
+        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString() == 'lightgreen') {
+
+        } else{
+          listColor[2] = Colors.grey;
+        }
+      }
+    });
+  }
 }
+

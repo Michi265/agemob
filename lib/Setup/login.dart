@@ -26,7 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   bool _validate = false;
   var emailField;
-
+  bool valore = true;
+//&& EmailValidator.validate(input , true)
   @override
   Widget build(BuildContext context) {
 
@@ -34,9 +35,9 @@ class _LoginPageState extends State<LoginPage> {
             autofocus: false,
             obscureText: false,
             style: style,
-            validator: (input) => !EmailValidator.validate(input, true)
-                ? 'Not a valid email.'
-                : null,
+              validator: (input) => valore
+                  ? null
+                  :'Not a valid email.',
             onSaved: (input) => _email = input,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -122,16 +123,21 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
     );
-
 }
+
+  void changeVal(){
+    this.valore = false;
+  }
 
   Future<void> signIn() async {
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (true) {
       formState.save();
       try {
+        this.valore = true;
         AuthResult result = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password);
+            .signInWithEmailAndPassword(email: _email.replaceAll(' ', ''), password: _password);
+        this.valore = true;
         FirebaseUser user = result.user;
         final uid = user.uid;
         print(uid);
@@ -171,34 +177,13 @@ class _LoginPageState extends State<LoginPage> {
 
       } catch (e) {
        print(e.message);
-
-       showDialog(
-           context: context,
-           builder: (BuildContext context)
-       {
-
-           return this.emailField = TextFormField(
-           obscureText: true,
-           style: style,
-           validator: (val) =>
-           val.length < 4 ? 'Password too short..' : 'Password too short..',
-           onSaved: (input) => _email = input,
-           decoration: InputDecoration(
-               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-               hintText: "Email",
-               focusedBorder: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(32.0),
-                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
-               ),
-               enabledBorder: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(32.0),
-                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
-               )
-           ),
-         );
-
-       });
+       changeVal();
+       formState.validate();
        }
+       finally {
+
+        formState.validate();
+      }
       }
     }
 
