@@ -966,7 +966,7 @@ class _HomeState extends State<Home> {
 
 
 
-  void checkColors() async{
+  Future<void> checkColors() async{
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.get().then((datasnapshot) async {
 
