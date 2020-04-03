@@ -35,12 +35,12 @@ class MyData{
   }
 }
 
-class Home extends StatefulWidget {
+class Home extends StatefulWidget{
 
   String project, country, destination, date, student,documentReferenceProject;
 
-  Home({this.project, this.country, this.destination, this.date, this.student
-  });
+  Home({Key key,this.project, this.country, this.destination, this.date, this.student
+  }): super(key: key);
   @override
   _HomeState createState() => _HomeState([
     MyData("Step 1: Documents ", Icons.check, "bo", false),
@@ -56,6 +56,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  @override
+  void initState(){
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => checkColors());
+  }
+
   List<MyData> _list;
   List<Color> listColor = new List(8);
   List<Color> listIconColor = new List(8);
@@ -64,6 +72,8 @@ class _HomeState extends State<Home> {
   String ols1 = 'yellow';
   final databaseReference = Firestore.instance;
   final Firestore firestore = Firestore.instance;
+
+
 
   int getColorHexFromStr(String colorStr){
     colorStr = "FF" + colorStr;
@@ -89,7 +99,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
     checkColors();
     List<ExpansionPanel> myList0 = [];
     List<ExpansionPanel> myList1 = [];
@@ -967,9 +976,9 @@ class _HomeState extends State<Home> {
 
 
   Future<void> checkColors() async{
+    await Future.delayed(Duration(milliseconds: 1));
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.get().then((datasnapshot) async {
-
       if (datasnapshot.exists){
         if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString() == 'lightgreen'&& datasnapshot.data['departureTicket']=='Uploaded') {
           listColor[2] = Colors.white;

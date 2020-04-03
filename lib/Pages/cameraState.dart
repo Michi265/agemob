@@ -86,9 +86,9 @@ class _CameraState extends State<CameraState> {
     StorageUploadTask uploadTask = storageReference.putFile(_imageBack);
     await uploadTask.onComplete;
     print('File Uploaded');
-    storageReference.getDownloadURL().then((fileURL) {
+    storageReference.getDownloadURL().then((fileURLBack) {
       setState(() {
-        _uploadedFileBackURL = fileURL;
+        _uploadedFileBackURL = fileURLBack;
         documentReferenceProject.setData({
           'downloadUrl': _uploadedFileBackURL,
           'path': _imageBack.path,
@@ -106,13 +106,14 @@ class _CameraState extends State<CameraState> {
         body:
         Column(
           children: <Widget>[
-            Container(height: 60.0,
-              width: 1.0,),
+            Container(height:  MediaQuery.of(context).size.height* 0.05,
+              width: MediaQuery.of(context).size.width* 0.08,),
             Text('Upload photos of your identity card',
               style: TextStyle(fontSize: 20.0),),
         Row(
           children: <Widget>[
-            Container(height: 150, width: 30,),
+            Container(height: MediaQuery.of(context).size.height* 0.2,
+              width: MediaQuery.of(context).size.width* 0.08,),
          RaisedButton(
               child: Text('Choose front file',
                   style: TextStyle(color: Colors.white)),
@@ -120,7 +121,7 @@ class _CameraState extends State<CameraState> {
               color: Colors.red[900],
             ) ,
 
-            Container(width: 60,
+            Container( width: MediaQuery.of(context).size.width*0.1,
             ),
             RaisedButton(
               child: Text('Choose back file',
@@ -131,19 +132,21 @@ class _CameraState extends State<CameraState> {
     ],),
             Row(
               children: <Widget>[
-                Container(height: MediaQuery.of(context).size.height-600,
-                  width: 30,),
+                Container(height: MediaQuery.of(context).size.height *0.3,
+                  width: MediaQuery.of(context).size.width*0.02,),
                 _imageFront != null
                     ? Image.asset(
                   _imageFront.path,
-                  height: 200,
+                  height: MediaQuery.of(context).size.height *0.3,
+                  width: MediaQuery.of(context).size.width*0.5,
                 )
                     : Container(),
-                Container(height: 30.0,width: 40.0,),
+                Container(height:MediaQuery.of(context).size.height *0.3,
+                  width: MediaQuery.of(context).size.width*0.01,),
                 _imageBack != null
                     ? Image.asset(
                   _imageBack.path,
-                  height: 200,
+                  height: MediaQuery.of(context).size.height *0.3,
                 )
                     : Container(),
 
@@ -151,8 +154,8 @@ class _CameraState extends State<CameraState> {
             Row(
               children: <Widget>[
                 Container(
-                  width: 55.0,),
-                _imageBack != null
+                  width: MediaQuery.of(context).size.width*0.15),
+                _imageFront != null
                     ? RaisedButton(
                   child: Text('Upload File',
                       style: TextStyle(color: Colors.white)),
@@ -160,8 +163,8 @@ class _CameraState extends State<CameraState> {
                   color: Colors.red[900],
                 )
                     : Container(),
-                Container(height: 200,
-                  width: 70.0,),
+                Container( height: MediaQuery.of(context).size.height *0.1,
+                  width:  MediaQuery.of(context).size.height *0.1),
                 _imageBack != null
                     ? RaisedButton(
                   child: Text('Upload File',
@@ -173,11 +176,11 @@ class _CameraState extends State<CameraState> {
               ],),
             Row(
               children: <Widget>[
-                Container(width: 45),
+                Container(  width: MediaQuery.of(context).size.width*0.08),
                 _uploadedFileURL != null
                     ? Text('File is uploaded',style: TextStyle(fontSize: 20),)
                 : Container(),
-                Container(width: 40),
+                Container( width: MediaQuery.of(context).size.width*0.12),
                 _uploadedFileBackURL != null
                     ? Text('File is uploaded',style: TextStyle(fontSize: 20),)
                     : Container(),
