@@ -158,9 +158,11 @@ class _LoginPageState extends State<LoginPage> {
             documentReferenceProject.get().then((datasnapshot){
               if (datasnapshot.exists){
                 print(datasnapshot.data.toString());
+                var tmp = Home(project: project, country: country, destination: destination, date: date, student: student,);
+                var page = MaterialPageRoute(builder: (context) =>
+              tmp);
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home(project: project, country: country, destination: destination, date: date, student: student,
-                )));
+                    context, page,);
               }
               else{
                 print ('No such user');

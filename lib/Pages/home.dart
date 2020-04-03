@@ -39,7 +39,7 @@ class Home extends StatefulWidget{
 
   String project, country, destination, date, student,documentReferenceProject;
 
-  Home({Key key,this.project, this.country, this.destination, this.date, this.student
+  Home({Key key,this.project, this.country, this.destination, this.date, this.student,
   }): super(key: key);
   @override
   _HomeState createState() => _HomeState([
@@ -50,7 +50,8 @@ class Home extends StatefulWidget{
     MyData("Step 5: final check ",Icons.check,"fkfjdb", false),
     MyData("Step 6: Tickets ",Icons.check,"fkfjdb", false),
     MyData("Step 7: OLS test ",Icons.check,"fkfjdb", false),
-    MyData("Step 8: Final report ",Icons.check,"fkfjdb", false)
+    MyData("Step 8: Final report ",Icons.check,"fkfjdb", false),
+
   ]);
 
 }
@@ -62,6 +63,7 @@ class _HomeState extends State<Home> {
     super.initState();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => checkColors());
+    //checkColors();
   }
 
   List<MyData> _list;
@@ -93,12 +95,14 @@ class _HomeState extends State<Home> {
       }
     }
 
+
     return val;
 
   }
 
   @override
   Widget build(BuildContext context) {
+
     checkColors();
     List<ExpansionPanel> myList0 = [];
     List<ExpansionPanel> myList1 = [];
@@ -168,6 +172,7 @@ class _HomeState extends State<Home> {
         isExpanded:(expansionDataOls1._expanded)));
 
     var expansionDataDownloadTickets = _list[2];
+
     myList2.add(ExpansionPanel(
         headerBuilder: (BuildContext context, bool isExpanded) {
           return Padding(
@@ -975,8 +980,8 @@ class _HomeState extends State<Home> {
 
 
 
-  Future<void> checkColors() async{
-    await Future.delayed(Duration(milliseconds: 1));
+  checkColors() {
+    //await Future.delayed(Duration(milliseconds: 1));
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.get().then((datasnapshot) async {
       if (datasnapshot.exists){
@@ -1065,5 +1070,9 @@ class _HomeState extends State<Home> {
       }
     });
   }
+
+
+
+
 }
 
