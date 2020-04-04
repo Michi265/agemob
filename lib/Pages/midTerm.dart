@@ -182,7 +182,7 @@ class _MidTermState extends State<MidTerm> {
         children: <Widget>[
       Column(
       children: <Widget>[
-        Container(height: 30.0,
+        Container(height: MediaQuery.of(context).size.height-780.0,
         width: MediaQuery.of(context).size.width-14,),
       Text('Drag your finger over the slices of the',
         style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),

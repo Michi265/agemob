@@ -561,7 +561,7 @@ class _HomeState extends State<Home> {
                                           _list[3].expanded = (_list[3].expanded);
                                           _list[3].icon = Icons.check;
                                         }
-                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen' && datasnapshot.data['midTerm']!= 'lightgreen'&& datasnapshot.data['departureTicket']=='Uploaded') {
+                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen' && datasnapshot.data['midTerm']!= 'lightgreen'&& datasnapshot.data['departureTicket']=='Uploaded'&& datasnapshot.data['midTerm']) {
                                           _list[3].expanded = !(_list[3].expanded);
                                         }else if ((datasnapshot.data['front'].toString() != 'accepted' || datasnapshot.data['back'].toString() != 'accepted') || datasnapshot.data['ols1'].toString() != 'lightgreen' || datasnapshot.data['departureTicket']!='Uploaded'){
                                           showDialog(

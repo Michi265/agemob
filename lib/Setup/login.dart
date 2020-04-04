@@ -26,7 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   bool _validate = false;
   var emailField;
-  bool valore = true;
+  bool email_val = true;
+  bool password_val = true;
 //&& EmailValidator.validate(input , true)
   @override
   Widget build(BuildContext context) {
@@ -35,12 +36,12 @@ class _LoginPageState extends State<LoginPage> {
             autofocus: false,
             obscureText: false,
             style: style,
-              validator: (input) => valore
-                  ? null
-                  :'Not a valid email.',
+            validator: (input) => email_val
+                ? null
+                :'Not a valid email or password.',
             onSaved: (input) => _email = input,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                contentPadding: EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 15.0),
                 hintText: "Email",
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(32.0),
@@ -57,11 +58,12 @@ class _LoginPageState extends State<LoginPage> {
           final passwordField = TextFormField(
             obscureText: true,
             style: style,
-            validator: (val) =>
-            val.length < 4 ? 'Password too short..' : null,
+            validator: (input) => password_val
+                ? null
+                :'Not a valid email or password.',
             onSaved: (input) => _password = input,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                contentPadding: EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 15.0),
                 hintText: "Password",
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(32.0),
@@ -125,8 +127,11 @@ class _LoginPageState extends State<LoginPage> {
     );
 }
 
-  void changeVal(){
-    this.valore = false;
+  void changeValEmail(){
+    this.email_val = false;
+  }
+  void changeValPassword(){
+    this.password_val = false;
   }
 
   Future<void> signIn() async {
@@ -134,10 +139,12 @@ class _LoginPageState extends State<LoginPage> {
     if (true) {
       formState.save();
       try {
-        this.valore = true;
+        this.email_val = true;
+        this.password_val = true;
         AuthResult result = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email.replaceAll(' ', ''), password: _password);
-        this.valore = true;
+        this.email_val = true;
+        this.password_val = true;
         FirebaseUser user = result.user;
         final uid = user.uid;
         print(uid);
@@ -179,7 +186,10 @@ class _LoginPageState extends State<LoginPage> {
 
       } catch (e) {
        print(e.message);
-       changeVal();
+
+       changeValEmail();
+       changeValPassword();
+
        formState.validate();
        }
        finally {
