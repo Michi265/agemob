@@ -135,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> signIn() async {
+
     final formState = _formKey.currentState;
     if (true) {
       formState.save();
@@ -197,6 +198,7 @@ class _LoginPageState extends State<LoginPage> {
         formState.validate();
       }
       }
+
     }
 
 
@@ -208,6 +210,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _getToken(uid) {
+
     _firebaseMessaging.getToken().then((deviceToken) {
       print('Device Token: $deviceToken');
       firestore.collection('users').document(uid).updateData({'deviceToken': deviceToken});
