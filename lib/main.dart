@@ -1,4 +1,5 @@
 import 'package:agemob/Setup/login.dart';
+import 'package:agemob/Setup/size_config.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

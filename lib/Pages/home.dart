@@ -1,3 +1,4 @@
+import 'package:agemob/Setup/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:agemob/Pages/cameraState.dart';
@@ -102,7 +103,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
+    SizeConfig().init(context);
     checkColors();
     List<ExpansionPanel> myList0 = [];
     List<ExpansionPanel> myList1 = [];
@@ -561,7 +562,7 @@ class _HomeState extends State<Home> {
                                           _list[3].expanded = (_list[3].expanded);
                                           _list[3].icon = Icons.check;
                                         }
-                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen' && datasnapshot.data['midTerm']!= 'lightgreen'&& datasnapshot.data['departureTicket']=='Uploaded'&& datasnapshot.data['midTerm']) {
+                                        if((datasnapshot.data['front'].toString() == 'accepted' && datasnapshot.data['back'].toString() == 'accepted')&& datasnapshot.data['ols1'].toString()== 'lightgreen' && datasnapshot.data['midTerm']!= 'lightgreen'&& datasnapshot.data['departureTicket']=='Uploaded') {
                                           _list[3].expanded = !(_list[3].expanded);
                                         }else if ((datasnapshot.data['front'].toString() != 'accepted' || datasnapshot.data['back'].toString() != 'accepted') || datasnapshot.data['ols1'].toString() != 'lightgreen' || datasnapshot.data['departureTicket']!='Uploaded'){
                                           showDialog(

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:agemob/Pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:agemob/Setup/size_config.dart';
 
 
 enum AuthMode {Login}
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 //&& EmailValidator.validate(input , true)
   @override
   Widget build(BuildContext context) {
-
+    SizeConfig().init(context);
             this.emailField = TextFormField(
             autofocus: false,
             obscureText: false,

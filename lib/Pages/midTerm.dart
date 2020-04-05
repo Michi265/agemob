@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'dart:ui';
+import 'package:agemob/Setup/size_config.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:agemob/Pages/midTermPointer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -137,13 +138,14 @@ class _MidTermState extends State<MidTerm> {
   var organizationRefLeftX;
   var organizationRefLeftY;
 
-  final double radius = 162;
-  final String text = '        '+'HEALTH'+'                   '+'WORK'+'                    '+'CULTURE'+'           '+'ORGANIZATION'+'        '+'RELATIONS'+'                    '+'FUN'+'      ';
+  final double radius = SizeConfig.blockSizeHorizontal*42;
+  final String textH = '          HEALTH                         WORK                        CULTURE                    ORGANIZATION             RELATIONS                        FUN';
   final double startAngle= -pi / 2;
-  final textStyle =  TextStyle(fontSize: 20, color: Colors.black);
+  final textStyle =  TextStyle(fontSize: SizeConfig.safeBlockHorizontal *4, color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
@@ -182,16 +184,16 @@ class _MidTermState extends State<MidTerm> {
         children: <Widget>[
       Column(
       children: <Widget>[
-        Container(height: MediaQuery.of(context).size.height-780.0,
-        width: MediaQuery.of(context).size.width-14,),
+        Container(height:SizeConfig.safeBlockVertical * 1,
+          width: SizeConfig.safeBlockHorizontal *100),
       Text('Drag your finger over the slices of the',
-        style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+        style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),textAlign: TextAlign.justify,),
       Text('wheel to express your satisfaction ',
-          style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+          style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),textAlign: TextAlign.justify,),
       Text(' about various aspects of your',
-          style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),
+          style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),textAlign: TextAlign.justify,),
       Text(' experience abroad.',
-            style: TextStyle(fontSize: 20.0),textAlign: TextAlign.justify,),],),
+            style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),textAlign: TextAlign.justify,),],),
           GestureDetector(
             onPanUpdate: (details) {
               setState(() {
@@ -277,7 +279,7 @@ class _MidTermState extends State<MidTerm> {
                 organizationRefLeftY: this.organizationRefLeftY,
 
                 radius: this.radius,
-                text: this.text,
+                text: this.textH,
                 initialAngle: this.startAngle,
                 textStyle: this.textStyle
 

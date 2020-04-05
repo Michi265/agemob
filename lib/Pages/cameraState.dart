@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agemob/Setup/size_config.dart';
 import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // For Image Picker
@@ -24,7 +25,10 @@ class _CameraState extends State<CameraState> {
   final Firestore firestore = Firestore.instance;
   String front;
 
-
+  bool changeColor = false;
+  bool changeText = false;
+  bool changeColorBack = false;
+  bool changeTextBack = false;
   Future chooseFrontFile() async {
     await ImagePicker.pickImage(source: ImageSource.camera).then((imageFront) {
       setState(() {
@@ -42,6 +46,12 @@ class _CameraState extends State<CameraState> {
   }
 
   Future uploadFrontFile() async {
+    setState(() {
+      changeColor = !changeColor;
+      changeText = !changeText;
+      deactivate();
+    });
+
     DocumentReference documentReferenceProject = firestore.collection(
         'projects').document(widget.project.toString()).collection('Countries')
         .document(widget.country.toString()).collection('Destinations')
@@ -70,6 +80,13 @@ class _CameraState extends State<CameraState> {
   }
 
   Future uploadBackFile() async {
+
+    setState(() {
+      changeColorBack = !changeColorBack;
+      changeTextBack = !changeTextBack;
+      deactivate();
+    });
+
     DocumentReference documentReferenceProject = firestore.collection(
         'projects').document(widget.project.toString()).collection('Countries')
         .document(widget.country.toString()).collection('Destinations')
@@ -99,21 +116,23 @@ class _CameraState extends State<CameraState> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           title: Text('Firestore File Upload'),
         ),
-        body:
-        Column(
+        body: Center(
+
+        child:Column(
           children: <Widget>[
-            Container(height:  MediaQuery.of(context).size.height* 0.05,
-              width: MediaQuery.of(context).size.width* 0.08,),
+            Container(height: SizeConfig.safeBlockVertical * 5,
+              width: SizeConfig.safeBlockHorizontal * 0.8,),
             Text('Upload photos of your identity card',
-              style: TextStyle(fontSize: 20.0),),
+              style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),),
         Row(
           children: <Widget>[
-            Container(height: MediaQuery.of(context).size.height* 0.2,
-              width: MediaQuery.of(context).size.width* 0.08,),
+            Container(height:SizeConfig.safeBlockVertical * 18,
+              width: SizeConfig.safeBlockHorizontal *10,),
          RaisedButton(
               child: Text('Choose front file',
                   style: TextStyle(color: Colors.white)),
@@ -121,8 +140,8 @@ class _CameraState extends State<CameraState> {
               color: Colors.red[900],
             ) ,
 
-            Container( width: MediaQuery.of(context).size.width*0.1,
-            ),
+            Container(height:SizeConfig.safeBlockVertical * 18,
+              width: SizeConfig.safeBlockHorizontal *6,),
             RaisedButton(
               child: Text('Choose back file',
                   style: TextStyle(color: Colors.white)),
@@ -132,21 +151,23 @@ class _CameraState extends State<CameraState> {
     ],),
             Row(
               children: <Widget>[
-                Container(height: MediaQuery.of(context).size.height *0.3,
-                  width: MediaQuery.of(context).size.width*0.02,),
+
+                Container(height:SizeConfig.safeBlockVertical * 0.1,
+                  width: SizeConfig.safeBlockHorizontal *12,),
                 _imageFront != null
-                    ? Image.asset(
-                  _imageFront.path,
-                  height: MediaQuery.of(context).size.height *0.3,
-                  width: MediaQuery.of(context).size.width*0.5,
+                    ? Image.file(
+                  _imageFront,
+                  height:SizeConfig.safeBlockVertical * 30,
+                  width: SizeConfig.safeBlockHorizontal *35,
                 )
                     : Container(),
-                Container(height:MediaQuery.of(context).size.height *0.3,
-                  width: MediaQuery.of(context).size.width*0.01,),
+                Container(height:SizeConfig.safeBlockVertical * 0.1,
+                  width: SizeConfig.safeBlockHorizontal *7,),
                 _imageBack != null
-                    ? Image.asset(
-                  _imageBack.path,
-                  height: MediaQuery.of(context).size.height *0.3,
+                    ? Image.file(
+                  _imageBack,
+                  height:SizeConfig.safeBlockVertical * 30,
+                  width: SizeConfig.safeBlockHorizontal *35,
                 )
                     : Container(),
 
@@ -154,35 +175,41 @@ class _CameraState extends State<CameraState> {
             Row(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width*0.15),
+                  height:SizeConfig.safeBlockVertical * 10,
+                  width: SizeConfig.safeBlockHorizontal *16,),
                 _imageFront != null
                     ? RaisedButton(
-                  child: Text('Upload File',
+                  child: changeText? Text('Wait...',
+                      style: TextStyle(color: Colors.white)):Text('Upload File',
                       style: TextStyle(color: Colors.white)),
                   onPressed: uploadFrontFile,
-                  color: Colors.red[900],
+                  color: changeColor? Colors.grey:Colors.red[900],
                 )
                     : Container(),
-                Container( height: MediaQuery.of(context).size.height *0.1,
-                  width:  MediaQuery.of(context).size.height *0.1),
+                Container(  height:SizeConfig.safeBlockVertical * 10,
+                  width: SizeConfig.safeBlockHorizontal *12,),
                 _imageBack != null
                     ? RaisedButton(
-                  child: Text('Upload File',
+                  child:changeTextBack? Text('Wait...',
+                      style: TextStyle(color: Colors.white)):Text('Upload File',
                       style: TextStyle(color: Colors.white)),
                   onPressed: uploadBackFile,
-                  color: Colors.red[900],
+                  color: changeColorBack? Colors.grey:Colors.red[900],
+
                 )
                     : Container(),
               ],),
             Row(
               children: <Widget>[
-                Container(  width: MediaQuery.of(context).size.width*0.08),
+                Container(  height:SizeConfig.safeBlockVertical * 10,
+                  width: SizeConfig.safeBlockHorizontal *12,),
                 _uploadedFileURL != null
-                    ? Text('File is uploaded',style: TextStyle(fontSize: 20),)
+                    ? Text('File is uploaded',style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),)
                 : Container(),
-                Container( width: MediaQuery.of(context).size.width*0.12),
+                Container( height:SizeConfig.safeBlockVertical * 10,
+                  width: SizeConfig.safeBlockHorizontal *6,),
                 _uploadedFileBackURL != null
-                    ? Text('File is uploaded',style: TextStyle(fontSize: 20),)
+                    ? Text('File is uploaded',style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal *5),)
                     : Container(),
                 /*Image.network(
                   _uploadedFileURL,
@@ -212,6 +239,6 @@ class _CameraState extends State<CameraState> {
           )
               : Container(),
         ],),*/
-    );
+  ),);
   }
 }
