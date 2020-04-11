@@ -76,6 +76,13 @@ class _HomeState extends State<Home> {
   final databaseReference = Firestore.instance;
   final Firestore firestore = Firestore.instance;
 
+  bool changeColorOls1 = false;
+  bool changeTextOls1 = false;
+  bool changeColorOls2 = false;
+  bool changeTextOls2 = false;
+  bool changeColorReport = false;
+  bool changeTextReport = false;
+
 
 
   int getColorHexFromStr(String colorStr){
@@ -139,7 +146,7 @@ class _HomeState extends State<Home> {
               Text(''),
               RaisedButton(
                 onPressed: uploadDocument,
-                child: Text('Upload document'),)
+                child: Text('Upload document',style: TextStyle(fontSize: 16.0,color: Colors.white)),color: Colors.red[900],)
 
         ],),
         isExpanded:(expansionDataDocument._expanded)));
@@ -162,13 +169,18 @@ class _HomeState extends State<Home> {
           children: <Widget>[
           Text(' You have received the login credentials for the '+' '+' OLS platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
             Text(''),
-          Text(' Use them to complete the test.', style: TextStyle(fontSize: 22.0)),
+          Text(' Use them to complete the test.', style: TextStyle(fontSize: 18.0)),
           Text(''),
           Text(' Once you have done the test, click the button below to allow the operator to verify that everything is ok and upload your flight tickets.', style: TextStyle(fontSize: 18.0),),
           Text(''),
           RaisedButton(
+
+            child:changeTextOls1? Text('Submitted',
+            style: TextStyle(fontSize: 16.0, color: Colors.white)):Text('Submitt',
+            style: TextStyle(fontSize: 16.0,color: Colors.white)),
             onPressed: uploadOls1,
-            child: Text('Upload ols1')
+            color: changeColorOls1? Colors.grey[800]:Colors.red[900],
+
           ),],),
         isExpanded:(expansionDataOls1._expanded)));
 
@@ -193,8 +205,7 @@ class _HomeState extends State<Home> {
           Text(''),
           RaisedButton(
             onPressed: downloadTickets,
-            child: Text('Download tickets'),
-        ),],),
+            child: Text('Download tickets',style: TextStyle(fontSize: 16.0,color: Colors.white)),color: Colors.red[900],),],),
         isExpanded: expansionDataDownloadTickets._expanded));
 
     var expansionDataMidTermCheck = _list[3];
@@ -217,8 +228,7 @@ class _HomeState extends State<Home> {
           Text(''),
           RaisedButton(
             onPressed: uploadMidTermCheck,
-            child: Text('Upload Mid-Term check'),
-          ),],),
+            child: Text('Upload Mid-Term check',style: TextStyle(fontSize: 16.0,color: Colors.white)),color: Colors.red[900],),],),
         isExpanded: expansionDataMidTermCheck._expanded));
 
     var expansionDataFinalCheck = _list[4];
@@ -241,8 +251,7 @@ class _HomeState extends State<Home> {
           Text(''),
           RaisedButton(
             onPressed: uploadFinalCheck,
-            child: Text('Upload final check'),
-        ),],),
+            child: Text('Upload final check',style: TextStyle(fontSize: 16.0,color: Colors.white)),color: Colors.red[900],),],),
         isExpanded: expansionDataFinalCheck._expanded));
 
 
@@ -266,8 +275,7 @@ class _HomeState extends State<Home> {
           Text(''),
           RaisedButton(
             onPressed: downloadTicketsR,
-            child: Text('Download tickets'),
-        ),],),
+            child: Text('Download tickets',style: TextStyle(fontSize: 16.0,color: Colors.white)),color: Colors.red[900],),],),
         isExpanded: expansionDataDownloadTicketsR._expanded));
 
 
@@ -289,13 +297,17 @@ class _HomeState extends State<Home> {
           children: <Widget>[
         Text(' You have received the login credentials for the '+' '+' OLS platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
         Text(''),
-        Text(' Use them to complete the test.', style: TextStyle(fontSize: 22.0)),
+        Text(' Use them to complete the test.', style: TextStyle(fontSize: 18.0)),
         Text(''),
         Text(' Once you have done the test, click the button below to allow the operator to verify that everything is ok and upload your flight tickets.', style: TextStyle(fontSize: 18.0),),
         Text(''),
         RaisedButton(
+
+          child:changeTextOls2? Text('Submitted',
+              style: TextStyle(fontSize:16.0,color: Colors.white)):Text('Submitt',
+              style: TextStyle(fontSize:16.0,color: Colors.white)),
           onPressed: uploadOls2,
-          child: Text('Upload ols2'),
+          color: changeColorOls2? Colors.grey[800]:Colors.red[900],
         ),],),
         isExpanded: expansionDataOls2._expanded));
 
@@ -318,13 +330,17 @@ class _HomeState extends State<Home> {
           children: <Widget>[
         Text(' You have received the login credentials for the '+' '+' Erasmus platform in your inbox.', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.left,),
         Text(''),
-        Text(' Use them to complete the final report on your experience.', style: TextStyle(fontSize: 22.0)),
+        Text(' Use them to complete the final report on your experience.', style: TextStyle(fontSize: 18.0)),
         Text(''),
         Text('  Once you have complete the report, click the button below to allow the operator to verify that everything is ok.', style: TextStyle(fontSize: 18.0),),
         Text(''),
         RaisedButton(
+
+          child:changeTextReport? Text('Submitted',
+              style: TextStyle(fontSize:16.0,color: Colors.white)):Text('Submitt',
+              style: TextStyle(fontSize:16.0,color: Colors.white)),
           onPressed: report,
-          child: Text('Report'),
+          color: changeColorReport? Colors.grey[800]:Colors.red[900],
         ),],),
         isExpanded: expansionDataReport._expanded));
 
@@ -904,6 +920,12 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> uploadOls1() async {
+    setState(() {
+      changeColorOls1 = !changeColorOls1;
+      changeTextOls1 = !changeTextOls1;
+      deactivate();
+    });
+
     DocumentReference documentReferenceProject = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReferenceProject.updateData({'ols1': "yellow"});
 
@@ -970,11 +992,25 @@ class _HomeState extends State<Home> {
     });}
 
   Future<void> uploadOls2() async {
+
+    setState(() {
+      changeColorOls2 = !changeColorOls2;
+      changeTextOls2 = !changeTextOls2;
+      deactivate();
+    });
+
     DocumentReference documentReference = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReference.updateData({'ols2': "yellow"});
   }
 
   Future<void> report() async {
+
+    setState(() {
+      changeColorReport = !changeColorReport;
+      changeTextReport = !changeTextReport;
+      deactivate();
+    });
+
     DocumentReference documentReference = firestore.collection('projects').document(widget.project.toString()).collection('Countries').document(widget.country.toString()).collection('Destinations').document(widget.destination.toString()).collection('Date').document(widget.date.toString()).collection('Students').document(widget.student.toString());
     documentReference.updateData({'report': "yellow"});
   }
